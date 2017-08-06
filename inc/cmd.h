@@ -25,23 +25,18 @@
  * THE SOFTWARE.
  **/
 
-#ifndef __H_SHELL__
-#define __H_SHELL__
+#ifndef __H_CMD__
+#define __H_CMD__
 
-#ifdef DEBUG
-    #define DBG(x)  printf(x);printf("\n")
- #else
-    #define DBG(x)  //
-#endif
+typedef void (*cmd)(int argc, char** argv);
 
- #define PROMPT                     "# "
- #define SHELL_BUFFER_SIZE          64
- #define SHELL_NUMBER_OF_ARGUMENTS  64
- #define TRUE                       (1==1)
- #define FALSE                      (1==0)
+typedef struct {
+    char*   command_name;
+    cmd     command;
+    char*   command_help;
+} cmd_tb;
 
-void shell();
-void parse_line(char** argv, char *line, int argument_size);
-void execute(char **argv);
+// Command functions
+void cmd_print (int argc, char** argv);
 
  #endif 

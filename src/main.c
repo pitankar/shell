@@ -26,9 +26,12 @@
  **/
 
 #include "shell.h"
+#include "cmd.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+extern cmd_tb table[];
 
 /**
  * this is the first function to be called.
@@ -52,7 +55,9 @@
     char c;
     int  count = 0;
     int  size = SHELL_BUFFER_SIZE;
-    char *line = (char *) malloc (size);
+    int  argument_size = SHELL_NUMBER_OF_ARGUMENTS;
+    char *line = (char *) malloc (sizeof(char) * size);
+    char **argv = (char **) malloc (sizeof(char*) * argument_size);
 
     printf ("%s", PROMPT);
 
@@ -74,7 +79,44 @@
     }
 
     // parse the line
-    // execute the command
+    parse_line(argv, line, argument_size);
+
+    // execute the parsed commands
+    execute(argv);
 
     free(line);
+    free(argv);
+}
+
+void parse_line(char** argv, char *line, int argument_size) {
+    int argc = 0;
+    int pos  = 0;
+    int length = strlen(line);
+
+    while (pos < length) {
+        if (argc == argument_size) {
+            argument_size += SHELL_NUMBER_OF_ARGUMENTS;
+            argv = (char **) realloc (argv, argument_size);
+        }
+
+        argv[argc++] = &line[pos];
+
+        for (; line[pos] != '\t' && line[pos] != ' ' && line[pos] != '\n' && line[pos] != EOF; pos++);
+
+        if (line[pos] == '\n' || line[pos] == EOF) {
+            line[pos] = '\0';
+            return;
+        } else {
+            line[pos++] = '\0';
+        }        
+    }
+}
+
+void execute(char **argv) {
+    int arg = 0;
+
+    for (int i = 0; table[i].command_name != NULL; i++) {
+        if (strcmp(argv[0], table[i].command_name) == 0)
+            table[i].command (0, &argv[1]);
+    }
 }

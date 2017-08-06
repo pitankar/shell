@@ -1,6 +1,6 @@
 /**
- * File:        shell.h
- * Description: implements the shell header
+ * File:        cmd.c
+ * Description: Holds all the valid command line commands
  **/
 
 /**
@@ -25,23 +25,16 @@
  * THE SOFTWARE.
  **/
 
-#ifndef __H_SHELL__
-#define __H_SHELL__
+#include "cmd.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-#ifdef DEBUG
-    #define DBG(x)  printf(x);printf("\n")
- #else
-    #define DBG(x)  //
-#endif
+cmd_tb table[] = {
+    {"print", cmd_print, "this is help test"},
+    {NULL, NULL, NULL}
+};
 
- #define PROMPT                     "# "
- #define SHELL_BUFFER_SIZE          64
- #define SHELL_NUMBER_OF_ARGUMENTS  64
- #define TRUE                       (1==1)
- #define FALSE                      (1==0)
-
-void shell();
-void parse_line(char** argv, char *line, int argument_size);
-void execute(char **argv);
-
- #endif 
+void cmd_print (int argc, char** argv) {
+    printf("This is dummy function\n");
+}

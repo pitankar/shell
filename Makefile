@@ -2,8 +2,8 @@
 INCLUDE = inc 
 OUTFILE = shell
 
-HEADERS = inc/shell.h 
-SOURCE = src/main.c
+HEADERS = inc
+SOURCE = src/main.c src/cmd.c
 
 all: $(HEADERS) $(SOURCE)
 	gcc -std=c99 -ggdb -I$(INCLUDE) $(SOURCE) -o $(OUTFILE)
