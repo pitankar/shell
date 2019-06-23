@@ -32,9 +32,14 @@
 
 cmd_tb table[] = {
     {"print", cmd_print, "this is help test"},
+    {"exit", cmd_exit, "exits the shell application"},
     {NULL, NULL, NULL}
 };
 
 void cmd_print (int argc, char** argv) {
     printf("This is dummy function\n");
+}
+
+void cmd_exit (int argc, char** argv) {
+    exit(0);
 }

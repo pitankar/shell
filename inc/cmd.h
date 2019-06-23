@@ -38,5 +38,6 @@ typedef struct {
 
 // Command functions
 void cmd_print (int argc, char** argv);
+void cmd_exit (int argc, char** argv);
 
  #endif 
