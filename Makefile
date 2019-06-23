@@ -1,12 +1,17 @@
 # Makefile
-INCLUDE = inc 
-OUTFILE = shell
+INCLUDE = inc/
+PROJECT = shell
 
-HEADERS = inc
-SOURCE = src/main.c src/cmd.c
+GCCFLAGS = -std=c99 -ggdb
+SOURCES = $(wildcard src/*.c)
+OBJECTS = $(SOURCES:.c=.o)
 
-all: $(HEADERS) $(SOURCE)
-	gcc -std=c99 -ggdb -I$(INCLUDE) $(SOURCE) -o $(OUTFILE)
+all: $(OBJECTS)
+	gcc $(GCCFLAGS) -I$(INCLUDE) $(OBJECTS) -o $(PROJECT)
+	rm -rf $(OBJECTS)
+
+%.o: %.c
+	gcc -I$(INCLUDE) -c $< -o $@
 
 clean:
-	rm -rf $(OUTFILE)
+	rm -rf $(PROJECT)
